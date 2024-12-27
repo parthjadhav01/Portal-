@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Anish Forge Pvt Ltd</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="loginstyles.css">
+</head>
+<body class="background-image">
+    <nav class="navbar">
+        <div class="logo-container">
+            <img src="logo.png" alt="Anish Forge Logo" class="logo">
+            <br>
+            <h1 class="company-name">Anish Forge Pvt Ltd</h1>
+            <br>
+        </div>
+        <div class="right-corner">
+            <p class="powered-by">Powered by Eternity AI Endeavours Pvt Ltd</p>
+        </div>
+    </nav>
+    <main class="login-section">
+        <div class="login-card">
+            <form class="login-form" id="loginForm" onsubmit="login(event)">
+                <h2>Welcome Back</h2>
+                <p>Please sign in to continue</p>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">Login</button>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+            </form>
+        </div>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2024 Anish Forge Pvt Ltd. All rights reserved.</p>
+    </footer>
+    <script src="loginscript.js"></script>
+</body>
+</html>

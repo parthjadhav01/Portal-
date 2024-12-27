@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forging Company Analysis</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      text-align: center;
+    }
+    .chart-container {
+      position: relative;
+      margin: 20px auto;
+      height: 400px;
+      width: 100%;
+    }
+    .analysis {
+      margin-top: 20px;
+    }
+    .analysis table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: auto;
+    }
+    .analysis table, .analysis th, .analysis td {
+      border: 1px solid black;
+    }
+    .analysis th, .analysis td {
+      padding: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Forging Company Raw Material Analysis</h1>
+  <div class="chart-container">
+    <canvas id="materialChart"></canvas>
+  </div>
+  <div class="analysis">
+    <h2>Material Contribution Analysis</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Material</th>
+          <th>Quantity (tons)</th>
+          <th>Percentage (%)</th>
+        </tr>
+      </thead>
+      <tbody id="analysisTable"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // Data
+  const materials = ['Steel', 'Aluminum', 'Copper', 'Titanium', 'Brass', 'Nickel', 'Zinc', 'Magnesium', 'Lead', 'Chromium'];
+  const quantities = [120, 85, 60, 40, 30, 25, 20, 18, 15, 10];
+  const totalQuantity = quantities.reduce((a, b) => a + b, 0);
+  const percentages = quantities.map(qty => ((qty / totalQuantity) * 100).toFixed(2));
+
+  // Render Chart
+  const ctx = document.getElementById('materialChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: materials,
+      datasets: [{
+        label: 'Quantities (tons)',
+        data: quantities,
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Quantity (tons)'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Material'
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        title: {
+          display: true,
+          text: 'Raw Material Quantities for Forging Company'
+        }
+      }
+    }
+  });
+
+  // Populate Analysis Table
+  const tableBody = document.getElementById('analysisTable');
+  materials.forEach((material, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${material}</td>
+      <td>${quantities[index]}</td>
+      <td>${percentages[index]}%</td>
+    `;
+    tableBody.appendChild(row);
+  });
+</script>
+
+</body>
+</html>

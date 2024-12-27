@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Raw Material Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .add-row {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Daily Production Report</h1>
+    <form id="reportForm">
+        <h2>1. General Information</h2>
+        <table id="generalInfo">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Report Date</td>
+                    <td><input type="text" name="rd"></td>
+                </tr>
+                <tr>
+                    <td>Shift (1st/2nd/3rd)</td>
+                    <td><input type="text" name="shift"></td>
+                </tr>
+                
+                <tr>
+                    <td>Supervisor Name</td>
+                    <td><input type="text" name="Sup_Name"></td>
+                </tr>
+                <tr>
+                    <td>Team Members</td>
+                    <td><input type="text" name="Team_Members"></td>
+                </tr>
+                <tr>
+                    <td>Invoice Number</td>
+                    <td><input type="text" name="Invoice_Number"></td>
+                </tr>
+                <tr>
+                    <td>Size</td>
+                    <td><input type="text" name="Size"></td>
+                </tr>
+                <tr>
+                    <td>Actual Quantity</td>
+                    <td><input type="text" name="Actual_Quantity"></td>
+                </tr>
+                <tr>
+                    <td>Colour Code</td>
+                    <td><input type="text" name="Colour_Code"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>2.  Raw Material Details</h2>
+        <table id="rmdata">
+            <thead>
+                <tr>
+                    <th>Material Code</th>
+                    <th>Material Name</th>
+                    <th>Supplier Name</th>
+                    <th>Received Date</th>
+                    <th>Heat No.</th>
+                    <th>Dimensions</th>
+                    <th>Initial Weight</th>
+                    <th>Specification</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <button type="button" class="add-row" onclick="addRow('rmdata')">Add Row</button>
+
+        <h2>3.Chemical Composition</h2>
+        <table id="chcom">
+            <thead>
+                <tr>
+                    <th>Material Code</th>
+                    <th>Element</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <button type="button" class="add-row" onclick="addRow('chcom')">Add Row</button>
+
+        <h2>4.AS PER TEST CERTIFICATE</h2>
+        <table id="APTC">
+            <thead>
+                <tr>
+                    <th>Batch No.</th>
+                    <th>Grain Size</th>
+                    <th>Inclusion Rating</th>
+                    <th>Spark Test</th>
+                    <th>Upset Result</th>
+                    <th>Macro Examination</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <button type="button" class="add-row" onclick="addRow('APTC')">Add Row</button>
+
+        <h2>5.  Material Cut for Following Components</h2>
+        <table id="Materialcut">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Cutting Slip No.</th>
+                    <th>Component Name</th>
+                    <th>Heat Code</th>
+                    <th>Cut Qty.</th>
+                    <th>Gross Wt</th>
+                    <th>Total Kgs</th>
+                    <th>Qty Bal</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <button type="button" class="add-row" onclick="addRow('Materialcut')">Add Row</button>
+
+
+    
+
+        <!-- Additional tables can be added here following the same structure -->
+
+        <button type="button" onclick="submitReport()">Submit and Download CSV</button>
+    </form>
+
+    <script>
+        // Add a new row to a specific table
+        function addRow(tableId) {
+            const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+            const colCount = table.parentElement.tHead.rows[0].cells.length;
+            for (let i = 0; i < colCount; i++) {
+                const newCell = newRow.insertCell(i);
+                newCell.innerHTML = '<input type="text">';
+            }
+        }
+
+        // Convert table data to CSV format
+// Convert table data to CSV format
+function tableToCSV(tableId, tableTitle) {
+    const table = document.getElementById(tableId);
+    const rows = table.rows;
+    let csv = '';
+
+    // Add the table title as the first row in the CSV
+    csv += `${tableTitle}\n`;
+
+    // Add header row
+    const header = Array.from(rows[0].cells).map(cell => cell.innerText);
+    csv += header.join(',') + '\n';
+
+    // Add table rows
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].cells;
+        const row = [];
+        for (let j = 0; j < cells.length; j++) {
+            const input = cells[j].querySelector('input');
+            row.push(input ? input.value : cells[j].innerText);
+        }
+        csv += row.join(',') + '\n';
+    }
+    return csv;
+}
+
+// Submit report and download as CSV
+function submitReport() {
+    const tables = [
+        { id: 'generalInfo', title: '1. General Information' },
+        { id: 'rmdata', title: '2. Raw Material Details' },
+        { id: 'chcom', title: '3.Chemical Composition' },
+        { id: 'APTC', title: '4.AS PER TEST CERTIFICATE' },
+        { id: 'Materialcut', title: ' 5.Material Cut for Following Components' }
+    ];
+
+    let csvContent = '';
+    tables.forEach(table => {
+        csvContent += tableToCSV(table.id, table.title) + '\n';
+    });
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'Daily_Production_Report.csv';
+    a.click();
+}
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Production Report</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1, h2 {
+            color: #444;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+      th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        td input[type="text"], td select {
+            width: calc(100% - 10px);
+            padding: 5px;
+            margin: 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button.add-row {
+            margin-bottom: 15px;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        form {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <h1>Daily Production Report</h1>
+    <form id="reportForm">
+        <h2>1. General Information</h2>
+        <table id="generalInfo">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Supervisor Name</td>
+                    <td>
+                        <select name="supervisor">
+                            <option value="">Select</option>
+                            <option value="John Doe">John Doe</option>
+                            <option value="Jane Smith">Jane Smith</option>
+                            <option value="Sandeep">Sandeep</option>
+                        </select>
+                        <input type="text" name="supervisor_custom" placeholder="Enter custom value">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Team Members</td>
+                    <td>
+                        <select name="team">
+                            <option value="">Select</option>
+                            <option value="Team A">Team A</option>
+                            <option value="Team B">Team B</option>
+                            <option value="Team C">Team C</option>
+                        </select>
+                        <input type="text" name="team_custom" placeholder="Enter custom value">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>2. Product-Wise Production Data</h2>
+        <table id="productData">
+            <thead>
+                <tr>
+                    <th>Product Name/Code</th>
+                    <th>Batch No.</th>
+                    <th>Quantity Planned</th>
+                    <th>Quantity Produced</th>
+                    <th>OK Units</th>
+                    <th>Rejected Units</th>
+                    <th>Operator Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select>
+                            <option value="">Select</option>
+                            <option value="Product A">Product A</option>
+                            <option value="Product B">Product B</option>
+                        </select>
+                        <input type="text" placeholder="Enter custom value">
+                    </td>
+                    <td><input type="text" placeholder="Batch No."></td>
+                    <td><input type="text" placeholder="Quantity Planned"></td>
+                    <td><input type="text" placeholder="Quantity Produced"></td>
+                    <td><input type="text" placeholder="OK Units"></td>
+                    <td><input type="text" placeholder="Rejected Units"></td>
+                    <td>
+                        <select>
+                            <option value="">Select</option>
+                            <option value="Operator 1">Operator 1</option>
+                            <option value="Operator 2">Operator 2</option>
+                        </select>
+                        <input type="text" placeholder="Enter custom value">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" class="add-row" onclick="addRow('productData')">Add Row</button>
+
+        <h2>3. Furnace Data</h2>
+        <table id="furnaceData">
+            <thead>
+                <tr>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Temperature (°C)</th>
+                    <th>Operator Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" placeholder="Start Time"></td>
+                    <td><input type="text" placeholder="End Time"></td>
+                    <td><input type="text" placeholder="Temperature"></td>
+                    <td>
+                        <select>
+                            <option value="">Select</option>
+                            <option value="Operator 1">Operator 1</option>
+                            <option value="Operator 2">Operator 2</option>
+                        </select>
+                        <input type="text" placeholder="Enter custom value">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" class="add-row" onclick="addRow('furnaceData')">Add Row</button>
+
+        <h2>4. Raw Material Consumption</h2>
+        <table id="rawMaterial">
+            <thead>
+                <tr>
+                    <th>Material Name</th>
+                    <th>Batch No.</th>
+                    <th>Quantity Consumed</th>
+                    <th>Operator Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" placeholder="Material Name"></td>
+                    <td><input type="text" placeholder="Batch No."></td>
+                    <td><input type="text" placeholder="Quantity Consumed"></td>
+                    <td>
+                        <select>
+                            <option value="">Select</option>
+                            <option value="Operator 1">Operator 1</option>
+                            <option value="Operator 2">Operator 2</option>
+                        </select>
+                        <input type="text" placeholder="Enter custom value">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" class="add-row" onclick="addRow('rawMaterial')">Add Row</button>
+
+        <button type="submit">Submit Report</button>
+        <button type="button" onclick="downloadCSV()">Download CSV</button>
+    </form>
+    <script>
+        function addRow(tableId) {
+            const table = document.getElementById(tableId).querySelector('tbody');
+            const row = table.querySelector('tr').cloneNode(true);
+            row.querySelectorAll('input, select').forEach(input => input.value = '');
+            table.appendChild(row);
+        }
+
+        document.getElementById('reportForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Form submitted!');
+        });
+
+        function downloadCSV() {
+            const rows = Array.from(document.querySelectorAll('table'))
+                .flatMap(table => Array.from(table.querySelectorAll('tr'))
+                    .map(row => Array.from(row.querySelectorAll('th, td'))
+                        .map(cell => cell.querySelector('input, select')?.value || cell.textContent.trim())));
+
+            const csvContent = rows.map(row => row.join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'daily_production_report.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
